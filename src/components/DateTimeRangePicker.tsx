@@ -1,0 +1,64 @@
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
+import dayjs from 'dayjs';
+import { Grid } from '@mui/material'
+
+interface Propstype {
+    startTime: string,
+    setStartTime: React.Dispatch<React.SetStateAction<string>>,
+    endTime: string,
+    setEndTime: React.Dispatch<React.SetStateAction<string>>
+}
+
+export default function DateTimeRangePicker({ startTime = '2023-11-03T00:00', endTime = '2023-11-06T00:00', setStartTime, setEndTime }: Propstype) {
+
+    const handleChangeStartTime = (newValue: dayjs.Dayjs | null) => {
+        if (newValue) {
+            setStartTime(newValue.toISOString());
+        }
+    }
+
+    const handleChangeEndTime = (newValue: dayjs.Dayjs | null) => {
+        if (newValue) {
+            setEndTime(newValue.toISOString());
+        }
+    }
+
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer
+                components={[
+                    'MobileDateTimePicker',
+                ]}
+            >
+                <Grid container direction='row'>
+                    <Grid item>
+                        <DemoItem label="Start time">
+                            <Grid container direction='row' alignItems='center'>
+                                <Grid item>
+                                    <MobileDateTimePicker
+                                        onChange={handleChangeStartTime}
+                                        defaultValue={dayjs(startTime)}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    ~
+                                </Grid>
+                                <Grid item>
+                                    <MobileDateTimePicker
+                                        minDateTime={dayjs(startTime)}
+                                        onChange={handleChangeEndTime}
+                                        defaultValue={dayjs(endTime)}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </DemoItem>
+                    </Grid>
+                </Grid>
+
+            </DemoContainer>
+        </LocalizationProvider>
+    );
+}

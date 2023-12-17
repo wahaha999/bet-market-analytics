@@ -11,6 +11,17 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #f1f5f9;
+}
+
+#root {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0 auto;
+  max-width: 1368px;
 }
 
 a {
@@ -23,11 +34,8 @@ a:hover {
 }
 
 body {
+  background-color: #eeeeee;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
@@ -65,4 +73,13 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.header {
+  max-width: 1368px;
+  margin: 30px 0;
+}
+
+.p-2 {
+  padding: 2em
 }
