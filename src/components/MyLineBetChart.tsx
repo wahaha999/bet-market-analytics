@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import FusionCharts from 'fusioncharts';
 import TimeSeries from 'fusioncharts/fusioncharts.timeseries';
 import ReactFusioncharts from 'react-fusioncharts';
+import Loading from './Loading';
+import { API_URL } from '../constant';
 
-// Add FusionCharts and TimeSeries as dependencies to FusionCharts
 ReactFusioncharts.fcRoot(FusionCharts, TimeSeries);
 
-const MyLineChart: React.FC = () => {
+interface Props {
+  marketType: string,
+  startTime: string,
+  endTime: string,
+}
+
+export default function MyLineBetChart  (props: Props) {
   const [data, setData] = useState<any[]>([]);
+  const { marketType, startTime, endTime } = props
+
   const schema = [
     {
       "name": "Team",
@@ -27,7 +36,8 @@ const MyLineChart: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    loadData("http://144.172.74.54:5000/time/test")
+    setLoading(true)
+    loadData(`${API_URL}/time/bet?type=${marketType}&start_date=${startTime}&end_date=${endTime}`)
       .then((dataRes) => {
         const transformedData = dataRes.results
           .map((item: any) => ([
@@ -40,11 +50,10 @@ const MyLineChart: React.FC = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error loading data:", error);
         setError(error.toString());
         setLoading(false);
       });
-  }, []);
+  }, [marketType, startTime, endTime]);
 
   const loadData = (url: string) => {
     return fetch(url, {
@@ -63,7 +72,7 @@ const MyLineChart: React.FC = () => {
   };
 
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
   if (error) return <div>Error: {error}</div>;
 
   const dataSource = {
@@ -72,8 +81,7 @@ const MyLineChart: React.FC = () => {
       lineSmoothing: 1,
       lineThickness: 2
     },
-    caption: { text: "Bet Handle Analysis" },
-    subcaption: { text: "Grocery" },
+    caption: { text: "MIN vs UTA Team Bet Handle Analysis" },
     xAxis: {
       plot: "Time"
     },
@@ -92,11 +100,11 @@ const MyLineChart: React.FC = () => {
             }
           }
         ],
-        title: "Sale Value"
+        title: "Average Bet Trend"
       }
     ],
     navigator: {
-      enabled: 0
+      enabled: 1
     },
     series: "Team",
     data: new FusionCharts.DataStore().createDataTable(data, schema),
@@ -113,4 +121,3 @@ const MyLineChart: React.FC = () => {
   );
 };
 
-export { MyLineChart };

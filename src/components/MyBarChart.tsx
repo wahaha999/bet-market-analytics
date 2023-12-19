@@ -3,6 +3,8 @@ import FusionCharts from "fusioncharts";
 import charts from "fusioncharts/fusioncharts.charts";
 import ReactFusioncharts from "react-fusioncharts";
 import '../styles/pieChart.css';
+import Loading from './Loading';
+import { API_URL } from '../constant';
 
 interface BarChartDataType {
     label: string;
@@ -42,7 +44,7 @@ const MyBarChart: React.FC = () => {
     };
 
     useEffect(() => {
-        loadData("http://144.172.74.54:5000/dimension/client")
+        loadData(`${API_URL}/dimension/client`)
             .then((dataRes: ResponseDataType) => {
                 const transformedData = dataRes.results
                     .map((item: DataItemType) => ({
@@ -61,16 +63,20 @@ const MyBarChart: React.FC = () => {
     }, []);
 
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading />;
     if (error) return <div>Error: {error}</div>;
 
     const dataSource = {
         chart: {
-            caption: "Countries With Most Oil Reserves [2017-18]",
-            subcaption: "In MMbbl = One Million barrels",
+            caption: "BET TREND by Client",
+            subcaption: "Who bets most?",
             xaxisname: "Client",
-            yaxisname: "Reserves (MMbbl)",
-            theme: "candy"
+            yaxisname: "Bet Trend",
+            theme: "candy",
+            captionFont: "Verdana",
+            captionFontSize: "16",
+            subCaptionFont: "Verdana",
+            subCaptionFontSize: "14"
         },
         data
     };
@@ -86,4 +92,4 @@ const MyBarChart: React.FC = () => {
     );
 };
 
-export { MyBarChart };
+export default MyBarChart;

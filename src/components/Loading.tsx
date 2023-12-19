@@ -1,14 +1,11 @@
-import { Typography } from '@mui/material'
+import LoadingSpinner from '../assets/Coin.gif'
 
-type Props = {}
 
-const Loading = (props: Props) => {
+const Loading = () => {
     return (
-        <div>
-            <Typography variant="h4">
-                Loading ...
-            </Typography>
-        </div>
+        <>
+            <img alt="LoadingSpinner" src={LoadingSpinner} width="400px" className="loading"/>
+        </>
     )
 }
 

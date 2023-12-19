@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -14,14 +18,19 @@
   background: #f1f5f9;
 }
 
+.container {
+  margin: 0 !important;
+  width: 100%;
+}
+
 #root {
   margin: 0;
   display: flex;
   justify-content: center;
   min-width: 320px;
   min-height: 100vh;
-  margin: 0 auto;
-  max-width: 1368px;
+  margin: 0;
+  width: 100%;
 }
 
 a {
@@ -64,8 +73,8 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: white;
+    background-color: white;
   }
   a:hover {
     color: #747bff;
@@ -76,10 +85,68 @@ button:focus-visible {
 }
 
 .header {
-  max-width: 1368px;
-  margin: 30px 0;
+  width: 100%;
+  padding: 30px 25px;
+  margin: 0;
+}
+
+.subtitle {
+  padding: 0 32px
+}
+
+.logo {
+  place-items: center;
+  padding: 9px 0 0 19px;
+}
+
+.body {
+  padding: 0 !important;
+  color: black !important;
+  background-color: white !important;
+  min-height: 80%
 }
 
 .p-2 {
   padding: 2em
+}
+
+.select {
+  padding: 10px
+}
+
+.svg-clip {
+  display: flex;
+  justify-self: center;
+}
+
+.pie-chart {
+  display: flex;
+  padding: 30px;
+}
+
+.bar-chart {
+  display: flex;
+  padding: 30px;
+}
+
+.bar-chart > div {
+  margin: 0 auto
+}
+
+.bubble-chart {
+  padding: 40px 0
+}
+
+.loading {
+  margin: 0 auto;
+  animation: loading linear 0.5s infinite alternate;
+}
+
+@keyframes loading {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(20px);
+  }
 }

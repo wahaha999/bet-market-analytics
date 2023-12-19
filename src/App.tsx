@@ -1,37 +1,30 @@
 import { useState } from 'react';
 import Header from './components/Header';
-import { Grid, Card, Container } from '@mui/material';
+import { Grid } from '@mui/material';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-// import TimeSeriesChart from './components/TimeSeriesChart';
-// import PieChart from './components/PieChart';
 import DateTimeRangePicker from './components/DateTimeRangePicker';
 import { Option, Select } from './components/Select'
-import { MyLineChart } from './components/MyLineChart';
-import { MyPieChart } from './components/MyPieChart';
-import { MyBarChart } from './components/MyBarChart';
+import MyPieChart from './components/MyPieChart';
+import MyBarChart from './components/MyBarChart';
+import MyLineBetChart  from './components/MyLineBetChart';
+import MyBubbleChart  from './components/MyBubbleChart';
+import { styled } from '@mui/system'
 
-// let pieData = [
-//   { label: "2023-11-05T00:55:50.000Z", value: 3.4 },
-//   { label: "2023-11-03T00:55:50.000Z", value: 33 },
-//   { label: "2023-11-02T00:55:50.000Z", value: 10 }
-// ]
+const MarketType = styled('div')({
+  margin: "20px 15px",
+})
 
 const App = () => {
-  const [marketType, setMarketType] = useState<number | null>(0)
+  const [marketType, setMarketType] = useState(0)
   const [startTime, setStartTime] = useState('2023-11-03T00:00')
   const [endTime, setEndTime] = useState('2023-11-06T00:00')
 
+
   return (
-    <>
-      <Container maxWidth="lg">
-
-        <Header />
-
-        <Grid container spacing={3}>
-          <Grid item md={12}>
-            <Card className='p-2'>
-              <Grid container direction='column'>
-                <Grid item container direction='row' spacing={2}>
+        <Grid container spacing={3} className='container'>
+          <Header />
+          <Grid container md={12} className='body' direction='column'>
+                <Grid item container direction='row' className="select">
                   <Grid item>
                     <DateTimeRangePicker
                       startTime={startTime}
@@ -40,52 +33,42 @@ const App = () => {
                       setEndTime={setEndTime}
                     />
                   </Grid>
-
                   <Grid item>
-                    <DemoContainer
-                      components={[
-                        'MobileDateTimePicker',
-                      ]}
-                    >
-                      <DemoItem label="Market Type">
-                        <Select value={marketType} id="market-type" name="market-type" onChange={(_, newValue) => setMarketType(newValue)}>
-                          <Option value={0}>Multi</Option>
-                          <Option value={1}>Single</Option>
-                        </Select>
-                      </DemoItem>
-
-                    </DemoContainer>
+                    <MarketType>
+                      <DemoContainer
+                        components={[
+                          'MobileDateTimePicker',
+                        ]}
+                      >
+                        <DemoItem label="Market Type">
+                          <Select value={marketType} id="market-type" name="market-type" 
+                                  onChange={(_, newValue) => {
+                                    if (newValue !==null) setMarketType(newValue)
+                                    }}>
+                            <Option value={0}>Multi</Option>
+                            <Option value={1}>Single</Option>
+                          </Select>
+                        </DemoItem>
+                      </DemoContainer>
+                    </MarketType>
                   </Grid>
-
                 </Grid>
-                <Grid item>
-                  <MyLineChart />
+                <Grid item container justifyContent="center" style={{ minHeight: "500px" }}>
+                  <MyLineBetChart marketType={marketType ? "single" : "multi"} startTime={startTime} endTime={endTime}/>
                 </Grid>
-              </Grid>
-
-
-              {/* {
-                data.length && <TimeSeriesChart data={data} />
-              } */}
-
-            </Card>
-          </Grid>
-
-          <Grid item md={6}>
-            <Card>
-              <MyPieChart />
-            </Card>
-          </Grid>
-
-          <Grid item md={6}>
-            <Card>
-              <MyBarChart />
-            </Card>
+                <Grid item container direction='row' justifyContent="center">
+                  <Grid item md={5} sm={12} className="pie-chart">
+                    <MyPieChart />
+                  </Grid>
+                  <Grid item md={5} sm={12} className="bar-chart">
+                    <MyBarChart />
+                  </Grid>
+                </Grid>
+                <Grid item container justifyContent="center" className="bubble-chart">
+                  <MyBubbleChart />
+                </Grid>
           </Grid>
         </Grid>
-
-      </Container>
-    </>
   );
 };
 export default App;

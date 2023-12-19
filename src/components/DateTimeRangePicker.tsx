@@ -4,6 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import dayjs from 'dayjs';
 import { Grid } from '@mui/material'
+import { styled } from '@mui/system'
 
 interface Propstype {
     startTime: string,
@@ -11,6 +12,10 @@ interface Propstype {
     endTime: string,
     setEndTime: React.Dispatch<React.SetStateAction<string>>
 }
+
+const TimeComponent = styled('div')({
+    margin: "20px 15px"
+})
 
 export default function DateTimeRangePicker({ startTime = '2023-11-03T00:00', endTime = '2023-11-06T00:00', setStartTime, setEndTime }: Propstype) {
 
@@ -34,27 +39,24 @@ export default function DateTimeRangePicker({ startTime = '2023-11-03T00:00', en
                 ]}
             >
                 <Grid container direction='row'>
-                    <Grid item>
-                        <DemoItem label="Start time">
-                            <Grid container direction='row' alignItems='center'>
-                                <Grid item>
-                                    <MobileDateTimePicker
-                                        onChange={handleChangeStartTime}
-                                        defaultValue={dayjs(startTime)}
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    ~
-                                </Grid>
-                                <Grid item>
-                                    <MobileDateTimePicker
-                                        minDateTime={dayjs(startTime)}
-                                        onChange={handleChangeEndTime}
-                                        defaultValue={dayjs(endTime)}
-                                    />
-                                </Grid>
-                            </Grid>
-                        </DemoItem>
+                    <Grid item container direction='row' alignItems='center'>
+                        <TimeComponent>
+                            <DemoItem label="Start Time">
+                                <MobileDateTimePicker
+                                    onChange={handleChangeStartTime}
+                                    defaultValue={dayjs(startTime)}
+                                />
+                            </DemoItem>
+                        </TimeComponent>
+                        <TimeComponent>
+                            <DemoItem label="End Time">
+                                <MobileDateTimePicker
+                                    minDateTime={dayjs(startTime)}
+                                    onChange={handleChangeEndTime}
+                                    defaultValue={dayjs(endTime)}
+                                />
+                            </DemoItem>
+                        </TimeComponent>
                     </Grid>
                 </Grid>
 
